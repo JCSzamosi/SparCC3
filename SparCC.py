@@ -17,7 +17,7 @@ try:
     from scipy.stats import nanmedian
 except ImportError:
     from numpy import nanmedian
-	
+    
 
 def append_indices(excluded,exclude):
     '''
@@ -260,8 +260,8 @@ def main(counts, method='SparCC', **kwargs):
         x,y     = np.meshgrid(var_med,var_med)
         cov_med = cor_med * x**0.5 * y**0.5
     elif method in ['pearson', 'kendall', 'spearman']:
-	n = counts.shape[1]
-	cor_array = np.zeros((n_iter, n, n))
+        n = counts.shape[1]
+        cor_array = np.zeros((n_iter, n, n))
         for i in range(n_iter):
             if oprint: print('\tRunning iteration ' + str(i))
             fracs = to_fractions(counts, method=norm)
