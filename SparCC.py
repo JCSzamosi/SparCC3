@@ -36,7 +36,7 @@ def new_excluded_pair(C, th=0.1, previously_excluded=[]):
     '''
 #    C_temp = abs(C - diag(diag(C)) )
     C_temp = np.triu(abs(C),1) # work only on upper triangle, excluding diagonal
-    C_temp[list(zip(*previously_excluded))] = 0 
+    C_temp[tuple(zip(*previously_excluded))] = 0 
     i,j = unravel_index(argmax(C_temp), C_temp.shape) 
     cmax = C_temp[i,j]
     if cmax > th:
@@ -101,7 +101,7 @@ def run_sparcc(f, **kwargs):
         M[j,i] -= 1
         M[i,i] -= 1
         M[j,j] -= 1
-        inds = list(zip(*excluded_pairs))
+        inds = tuple(zip(*excluded_pairs))
         Var_mat_temp[inds]   = 0
         Var_mat_temp.T[inds] = 0
         # search for new components to exclude

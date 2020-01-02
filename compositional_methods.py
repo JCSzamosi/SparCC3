@@ -68,8 +68,8 @@ def clr(frame, centrality='mean', axis=0):
         1 : transform each colum
     '''
     temp = log(frame)
-    if   centrality is 'mean':   f = lambda x: x - x.mean()
-    elif centrality is 'median': f = lambda x: x - x.median()
+    if   centrality == 'mean':   f = lambda x: x - x.mean()
+    elif centrality == 'median': f = lambda x: x - x.median()
     if isinstance(frame, DF):
         z = temp.apply(f, axis=1-axis)
     else:
@@ -127,9 +127,9 @@ def replace_zeros(frame, type='multiplicative', e=0.5):
         inds        = (row > 0).nonzero()[0] # indices of no zeros
         delta       = e * np.min(row[inds])  # imputed value for current sample
         row[inds_z] = delta                  # replace zeros by imputed values
-        if type is 'simple':
+        if type == 'simple':
             row /= row.sum()
-        elif type is 'multiplicative':
+        elif type == 'multiplicative':
             row[inds] *= (1-delta*len(inds_z))   
         new.ix[i] = row
     return new 

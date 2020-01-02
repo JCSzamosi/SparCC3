@@ -270,7 +270,7 @@ def to_fractions(frame, method='dirichlet', p_counts=1, axis=0):
         Returns new instance of same class as input frame.
     '''
     axis = _get_axis(axis)
-    if method is 'normalize': 
+    if method == 'normalize': 
         fracs = normalize(frame, axis)
         return fracs
     
@@ -279,9 +279,9 @@ def to_fractions(frame, method='dirichlet', p_counts=1, axis=0):
     if not isinstance(p_counts, Number):
         p_counts = np.asarray(p_counts)
         
-    if method is 'pseudo': 
+    if method == 'pseudo': 
         fracs = normalize(frame+p_counts, axis)
-    elif method is 'dirichlet':
+    elif method == 'dirichlet':
         from numpy.random.mtrand import dirichlet
         def dir_fun(x):
             a = x+p_counts
