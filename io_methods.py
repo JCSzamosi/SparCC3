@@ -5,7 +5,7 @@ Created on Dec 6, 2012
 '''
 import numpy as np
 from pandas.io.parsers import read_table
-from Lineages import Lineages
+from .Lineages import Lineages
 #from pandas.util.decorators import Appender
 
 
@@ -83,10 +83,10 @@ def read_txt(file, T=True, lin=None, lin_label='lineage',
         
     table = temp
     if lin:
-        if verbose: print '\n'.join(s), '\n'
+        if verbose: print('\n'.join(s), '\n')
         return table, lins
     else:
-        if verbose: print '\n'.join(s), '\n'
+        if verbose: print('\n'.join(s), '\n')
         return table
 
 def write_txt(frame, file, T=True, lin=None, lin_label='lineage', **kwargs):

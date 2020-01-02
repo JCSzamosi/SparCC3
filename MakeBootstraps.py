@@ -6,8 +6,8 @@
 Script for making simulated datasets used to get pseudo p-values.
 '''
 import os
-from analysis_methods import permute_w_replacement
-from io_methods import read_txt, write_txt
+from .analysis_methods import permute_w_replacement
+from .io_methods import read_txt, write_txt
     
 def kwargs_callback(option, opt, value, parser,**kwargs):
     d = kwargs['d']
@@ -42,9 +42,9 @@ def make_bootstraps(counts, nperm, perm_template, outpath='./', iprint=0):
         If iprint<=0 no printouts are made.
     '''
     if not os.path.exists(outpath): os.makedirs(outpath)
-    for i in xrange(nperm):
+    for i in range(nperm):
         if iprint>0:
-            if not i%iprint: print i
+            if not i%iprint: print(i)
         counts_perm = permute_w_replacement(counts, axis=1) 
         ## write out cors
         outfile = outpath + perm_template.replace('#', '%d'%i)

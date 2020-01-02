@@ -4,7 +4,7 @@ Created on Jun 27, 2011
 @author: jonathanfriedman
 '''
 
-import cPickle as pickle
+import pickle as pickle
 import numpy as np
 
 _levels         = ['k', 'p', 'c', 'o', 'f', 'g' , 's']
@@ -193,7 +193,7 @@ class Lineages(dict):
         '''
         Write all lineage strings to file, sorted by ids. 
         '''
-        ids    = sorted(self.keys(), key=sort_fun)
+        ids    = sorted(list(self.keys()), key=sort_fun)
         f      = open(file,'w')
         header = 'ID' +'\t' + 'Lineage' + '\n'
         f.write(header)
@@ -226,7 +226,7 @@ class Lineages(dict):
         and values are lineage strings.
         '''
         lins = Lineages()
-        for id, s in d.iteritems():
+        for id, s in d.items():
             lin = Lineage(id = id, lin_str = s, format = format)
             lins[id] = lin
         return lins
@@ -253,7 +253,7 @@ class Lineages(dict):
             raise ValueError("Level '%s' is not one of the allowed taxonomic leveles: 'k', 'p', 'c', 'o', 'f', 'g' , 's'." %level)
         if isinstance(ids, str):
             if ids=='all':
-                a = [l.get_assignment(level, best=best) for l in self.itervalues()]
+                a = [l.get_assignment(level, best=best) for l in self.values()]
                 return a
             else:
                 ids = (ids,)
@@ -268,8 +268,8 @@ class Lineages(dict):
         different than given. 
         '''
         if level not in _levels: raise ValueError("Level '%s' is not one of the allowed taxonomic leveles: 'k', 'p', 'c', 'o', 'f', 'g' , 's'." %level)        
-        if complement: ids = filter(lambda i: self[i].get_assignment(level=level, best=best) != assignment, self.iterkeys())
-        else:          ids = filter(lambda i: self[i].get_assignment(level=level, best=best) == assignment, self.iterkeys())
+        if complement: ids = [i for i in iter(self.keys()) if self[i].get_assignment(level=level, best=best) != assignment]
+        else:          ids = [i for i in iter(self.keys()) if self[i].get_assignment(level=level, best=best) == assignment]
         return ids
         
     def get_assigned(self, level):
@@ -284,7 +284,7 @@ class Lineages(dict):
         '''
         Return new instance with only given ids
         '''
-        ids = filter(lambda i:i in self, ids)
+        ids = [i for i in ids if i in self]
         new_d = dict([ (id,self[id]) for id in ids ])
         new = Lineages(new_d)
         return new

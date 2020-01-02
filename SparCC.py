@@ -10,9 +10,9 @@ import warnings
 import numpy as np
 from numpy import (unravel_index, argmax, ones, corrcoef, cov, r_, 
                    diag, sqrt, where, nan)
-from core_methods import to_fractions
-from compositional_methods import variation_mat, clr    
-from analysis_methods import correlation
+from .core_methods import to_fractions
+from .compositional_methods import variation_mat, clr    
+from .analysis_methods import correlation
 try:
     from scipy.stats import nanmedian
 except ImportError:
@@ -36,7 +36,7 @@ def new_excluded_pair(C, th=0.1, previously_excluded=[]):
     '''
 #    C_temp = abs(C - diag(diag(C)) )
     C_temp = np.triu(abs(C),1) # work only on upper triangle, excluding diagonal
-    C_temp[zip(*previously_excluded)] = 0 
+    C_temp[list(zip(*previously_excluded))] = 0 
     i,j = unravel_index(argmax(C_temp), C_temp.shape) 
     cmax = C_temp[i,j]
     if cmax > th:
@@ -101,7 +101,7 @@ def run_sparcc(f, **kwargs):
         M[j,i] -= 1
         M[i,i] -= 1
         M[j,j] -= 1
-        inds = zip(*excluded_pairs)
+        inds = list(zip(*excluded_pairs))
         Var_mat_temp[inds]   = 0
         Var_mat_temp.T[inds] = 0
         # search for new components to exclude
@@ -110,7 +110,7 @@ def run_sparcc(f, **kwargs):
         excluded_comp      = where(nexcluded>=D-3)[0]
         excluded_comp_new  = set(excluded_comp) - excluded_comp_prev
         if len(excluded_comp_new)>0:
-            print excluded_comp
+            print(excluded_comp)
             # check if enough components left 
             if len(excluded_comp) > D-4:
                 warnings.warn('Too many component excluded. Returning clr result.')
@@ -182,7 +182,7 @@ def basis_corr(f, method='sparcc', **kwargs):
     k = f.shape[1]
     ## compute basis variances & correlations
     if k<4: 
-        raise ValueError, 'Can not detect correlations between compositions of <4 components (%d given)' %k     
+        raise ValueError('Can not detect correlations between compositions of <4 components (%d given)' %k)     
     if method == 'clr':
         V_base, C_base, Cov_base = run_clr(f)
     elif method == 'sparcc':
@@ -192,7 +192,7 @@ def basis_corr(f, method='sparcc', **kwargs):
             warnings.warn('Sparcity assumption violated. Returning clr result.')
             V_base, C_base, Cov_base = run_clr(f)    
     else:
-        raise ValueError, 'Unsupported basis correlation method: "%s"' %method
+        raise ValueError('Unsupported basis correlation method: "%s"' %method)
     return V_base, C_base, Cov_base 
 
 def main(counts, method='SparCC', **kwargs):
@@ -249,7 +249,7 @@ def main(counts, method='SparCC', **kwargs):
     th       = kwargs.setdefault('th',0.1)   # exclusion threshold for iterative sparse algo
     if method in ['sparcc', 'clr']: 
         for i in range(n_iter):
-            if oprint: print '\tRunning iteration' + str(i)
+            if oprint: print('\tRunning iteration' + str(i))
             fracs = to_fractions(counts, method=norm)
             v_sparse, cor_sparse, cov_sparse = basis_corr(fracs, method=method, **kwargs)
             var_list.append(np.diag(cov_sparse))
@@ -263,7 +263,7 @@ def main(counts, method='SparCC', **kwargs):
 	n = counts.shape[1]
 	cor_array = np.zeros((n_iter, n, n))
         for i in range(n_iter):
-            if oprint: print '\tRunning iteration ' + str(i)
+            if oprint: print('\tRunning iteration ' + str(i))
             fracs = to_fractions(counts, method=norm)
             if log:
                 x = np.log(fracs)
@@ -304,8 +304,8 @@ if __name__ == '__main__':
     (options, args) = parser.parse_args()
     counts_file     = args[0]
     
-    from analysis_methods import basis_corr
-    from io_methods import read_txt, write_txt
+    from .analysis_methods import basis_corr
+    from .io_methods import read_txt, write_txt
 
     kwargs = options.__dict__
     algo     = kwargs.pop('algo')
@@ -314,22 +314,22 @@ if __name__ == '__main__':
     if cor_file is None: cor_file =  'cor_mat_' + algo + '.out' 
     if cov_file is None: cov_file =  'cov_mat_' + algo + '.out' 
         
-    print 'reading data'
+    print('reading data')
     counts = read_txt(counts_file)
      
     ## Calculate correlations between components using SparCC
-    print 'computing correlations'
+    print('computing correlations')
     cor, cov = basis_corr(counts, method=algo, **kwargs)
      
     ## write out results
-    print 'writing results'
+    print('writing results')
     write_txt(cor, cor_file)
-    print 'wrote ' + cor_file
+    print('wrote ' + cor_file)
     if cov is not None:
         write_txt(cov, cov_file)
-        print 'wrote ' + cov_file
+        print('wrote ' + cov_file)
      
-    print 'Done!'
+    print('Done!')
 
 
 

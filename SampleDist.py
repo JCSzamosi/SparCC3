@@ -31,8 +31,8 @@ def Run(counts_file, metric = 'JSsqrt', **kwargs):
     ## write distance matrix
     out_file = kwargs.get('out_file', 'sample_dist_' + metric +'.out')
     D.writetxt(out_file)    
-    print 'wrote ' + out_file
-    print 'Done!'
+    print('wrote ' + out_file)
+    print('Done!')
     
 
 if __name__ == '__main__':

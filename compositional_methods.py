@@ -7,7 +7,7 @@ Created on Jun 24, 2012
 import numpy as np
 from pandas import DataFrame as DF
 from numpy import array, asarray, zeros, log, var, matrix, tile
-from core_methods import _get_axis
+from .core_methods import _get_axis
 
 def alr(frame, ref=None, axis=0):
     '''
@@ -101,7 +101,7 @@ def variation_mat_slow(frame, shrink=False):
     Element i,j is the variance of the log ratio of components i and j.
     Slower version to be used in case the fast version runs out of memeory.
     '''
-    print 'in slow'
+    print('in slow')
     frame_a = 1.*asarray(frame)
     k    = frame_a.shape[1]
     V      = zeros((k,k))

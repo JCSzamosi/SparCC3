@@ -6,6 +6,7 @@ Created on Jun 24, 2012
 
 from pandas import DataFrame as DF
 import numpy as np
+from functools import reduce
 
 
 def _get_axis(given_axis):
@@ -77,9 +78,9 @@ def parse_reducer(reducer):
         elif reducer=='any':
             return operator.or_
         else:
-            raise ValueError, 'Unsupported value for "how" argument: "%s"' %reducer
+            raise ValueError('Unsupported value for "how" argument: "%s"' %reducer)
     else:
-        raise TypeError, 'Unsupported "how" argument type'
+        raise TypeError('Unsupported "how" argument type')
 
 def filter_by_vals(frame, criteria, axis='cols', verbose=True, how='all',
                    nan_val=None, norm=False):
@@ -146,7 +147,7 @@ def filter_by_vals(frame, criteria, axis='cols', verbose=True, how='all',
         axis_s = {0:'rows',1:'columns'}
         s = ['Dropped %d %s' %(len(drop),axis_s[axis]),
              'Resulting size is (%d,%d)' %filtered.shape]
-        print '\n'.join(s) +'\n'
+        print('\n'.join(s) +'\n')
     return filtered
 
 def keep(frame, n, criterion='sum', axis=0, which='first', sort=True):
@@ -194,7 +195,7 @@ def keep(frame, n, criterion='sum', axis=0, which='first', sort=True):
     elif which == 'last': 
         inds = temp.index[-n:]
     else:
-        raise ValueError, "Unsupported value for 'which' parameter: %s" %which      
+        raise ValueError("Unsupported value for 'which' parameter: %s" %which)      
     filtered    = data.filter(items=inds)
     if not sort: filtered = filtered.reindex_like(data).dropna(how='all', axis=axis)
     if axis == 0: filtered = filtered.T
@@ -208,7 +209,7 @@ def vals_by_keys(frame, key_pairs):
     Outputs:
         vals = [list] values for each pair in key_pairs, in corresponding order.
     '''
-    vals = map(lambda pair: frame[pair[0]][pair[1]], key_pairs)
+    vals = [frame[pair[0]][pair[1]] for pair in key_pairs]
     return vals
 
 def to_binary(frame, th=0):
@@ -294,7 +295,7 @@ def to_fractions(frame, method='dirichlet', p_counts=1, axis=0):
         else:
             fracs = np.apply_along_axis(dir_fun, 1-axis, frame)
     else:
-        raise ValueError, 'Unsupported method "%s"' %method
+        raise ValueError('Unsupported method "%s"' %method)
     return fracs
 
 def rarefy(frame,n, replace=False, remove_shallow=None):
@@ -345,7 +346,7 @@ def rarefy(frame,n, replace=False, remove_shallow=None):
                 return x
             new = np.zeros(k)
             counts = 1.*x
-            for j in xrange(n):
+            for j in range(n):
                 p = counts/nt
                 i = np.where((p.cumsum() - rand())>0)[0][0]
                 nt-=1
@@ -402,20 +403,20 @@ if __name__ == '__main__':
     df = DF(mat, index=rows, columns=cols)
 #    print df,'\n'
 #    print filter_by_vals(df,[('sum','<=',3),('presence','>',1)],axis='rows'),'\n'   
-    print metac, '\n'
+    print(metac, '\n')
     actor = lambda x: x['Size']
     filter1 = lambda x: isinstance(x['name'], str)
     filter2 = (actor,'in',['big','tiny'])
     filter3 = ('Size','in',['big','tiny'])
     filter4 = ('name','in',['Entero','Blautia'])
-    print filter_by_vals(metac, filter1, axis=0),'\n'
-    print filter_by_vals(metac, filter2, axis=0),'\n'
-    print filter_by_vals(metac, filter3, axis=0),'\n'
-    print filter_by_vals(metac,[filter1,filter2], axis=0),'\n'
-    print filter_by_vals(metac, filter4, axis=0, nan_val=True),'\n'
+    print(filter_by_vals(metac, filter1, axis=0),'\n')
+    print(filter_by_vals(metac, filter2, axis=0),'\n')
+    print(filter_by_vals(metac, filter3, axis=0),'\n')
+    print(filter_by_vals(metac,[filter1,filter2], axis=0),'\n')
+    print(filter_by_vals(metac, filter4, axis=0, nan_val=True),'\n')
     
     df = DF([[1,3,2],[4,6,5]], columns=['a','b','c'], index=['r1','r2'])
-    print df,'\n'
-    print rarefy(df,7, replace=True)
+    print(df,'\n')
+    print(rarefy(df,7, replace=True))
 
 
