@@ -10,9 +10,9 @@ import warnings
 import numpy as np
 from numpy import (unravel_index, argmax, ones, corrcoef, cov, r_, 
                    diag, sqrt, where, nan)
-from .core_methods import to_fractions
-from .compositional_methods import variation_mat, clr    
-from .analysis_methods import correlation
+from core_methods import to_fractions
+from compositional_methods import variation_mat, clr    
+from analysis_methods import correlation
 try:
     from scipy.stats import nanmedian
 except ImportError:
@@ -304,8 +304,8 @@ if __name__ == '__main__':
     (options, args) = parser.parse_args()
     counts_file     = args[0]
     
-    from .analysis_methods import basis_corr
-    from .io_methods import read_txt, write_txt
+    from analysis_methods import basis_corr
+    from io_methods import read_txt, write_txt
 
     kwargs = options.__dict__
     algo     = kwargs.pop('algo')

@@ -5,7 +5,7 @@ Created on Jun 24, 2012
 '''
 
 from pandas import DataFrame as DF
-from .core_methods import _get_axis
+from core_methods import _get_axis
 import numpy as np
 
 def basis_corr(frame, algo='SparCC', **kwargs):
@@ -41,7 +41,7 @@ def basis_corr(frame, algo='SparCC', **kwargs):
     log       bool         True      log-transform fraction? used if method ~= SparCC/CLR
     =======   ============ ========= ================================================
     '''
-    from . import SparCC
+    import SparCC
     comps  = frame.columns
     cor_med, cov_med = SparCC.main(frame, algo=algo, **kwargs)
     print(cor_med.shape)

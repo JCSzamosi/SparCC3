@@ -5,7 +5,7 @@ Created on Dec 6, 2012
 '''
 import numpy as np
 from pandas.io.parsers import read_table
-from .Lineages import Lineages
+from Lineages import Lineages
 #from pandas.util.decorators import Appender
 
 

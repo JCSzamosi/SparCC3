@@ -6,8 +6,8 @@
 Script for making simulated datasets used to get pseudo p-values.
 '''
 import os
-from .analysis_methods import permute_w_replacement
-from .io_methods import read_txt, write_txt
+from analysis_methods import permute_w_replacement
+from io_methods import read_txt, write_txt
     
 def kwargs_callback(option, opt, value, parser,**kwargs):
     d = kwargs['d']

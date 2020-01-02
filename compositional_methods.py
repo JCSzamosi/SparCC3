@@ -7,7 +7,7 @@ Created on Jun 24, 2012
 import numpy as np
 from pandas import DataFrame as DF
 from numpy import array, asarray, zeros, log, var, matrix, tile
-from .core_methods import _get_axis
+from core_methods import _get_axis
 
 def alr(frame, ref=None, axis=0):
     '''

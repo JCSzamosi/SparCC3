@@ -7,7 +7,7 @@ Created on Apr 8, 2013
 '''
 import numpy as np
 from pandas import DataFrame as DF
-from .io_methods import read_txt, write_txt
+from io_methods import read_txt, write_txt
 
 def compare2sided(perm,real): 
     return np.abs(perm) >= np.abs(real)
