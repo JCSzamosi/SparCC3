@@ -13,7 +13,7 @@ Original Documentation
 ----------------------
 
 *The below documentation is adapted from the [original SparCC bitbucket
-repository]((https://bitbucket.org/yonatanf/sparcc/src/default/).*
+repository](https://bitbucket.org/yonatanf/sparcc/src/default/).*
 
 `SparCC` is a python module for computing correlations in compositional data
 (16S, metagenomics, etc').
@@ -33,9 +33,11 @@ Questions, comments, complaints and praise should be send to yonatanf@mit.edu
   execution permission for these file (e.g. chmod +x SparCC.py).
 
 * Help for any one for the scripts in the root SparCC directory is available by
-  typing 'python [script_name] - h' in the command line. e.g.: :: 
+  typing 'python [script_name] - h' in the command line. e.g.: 
 
+```
    python SparCC.py -h .
+```
 
 * SparCC is implemented in pure python and requires a working version of python
   (=>3.7, tested with 3.7.3), numpy (tested with version 1.17.4), and pandas
@@ -63,20 +65,20 @@ Questions, comments, complaints and praise should be send to yonatanf@mit.edu
 First, we'll quantify the correlation between all OTUs, using SparCC, Pearson,
 and Spearman correlations:
 
-`
+```
 python SparCC.py example/fake_data.txt -i 5 --cor_file=example/basis_corr/cor_sparcc.out
 python SparCC.py example/fake_data.txt -i 5 --cor_file=example/basis_corr/cor_pearson.out -a pearson
 python SparCC.py example/fake_data.txt -i 5 --cor_file=example/basis_corr/cor_spearman.out -a spearman
-`
+```
 
 ### Pseudo p-value Calculation:
 
 Calculating pseudo p-values is done via a bootstrap procedure.
 First make shuffled (w. replacement) datasets:
 
-`
+```
 python MakeBootstraps.py example/fake_data.txt -n 5 -t permutation_#.txt -p example/pvals/
-`
+```
 
 This will generate 5 shuffled datasets, which is clearly not enough to get
 meaningful p-values, and is used here for convenience.  A more appropriate
@@ -87,13 +89,13 @@ use the exact same parameters which you used when running SparCC on the real
 data, name all the output files consistently, numbered sequentially, and with a
 '.txt' extension.
 
-`
+```
 python SparCC.py example/pvals/permutation_0.txt -i 5 --cor_file=example/pvals/perm_cor_0.txt
 python SparCC.py example/pvals/permutation_1.txt -i 5 --cor_file=example/pvals/perm_cor_1.txt
 python SparCC.py example/pvals/permutation_2.txt -i 5 --cor_file=example/pvals/perm_cor_2.txt
 python SparCC.py example/pvals/permutation_3.txt -i 5 --cor_file=example/pvals/perm_cor_3.txt
 python SparCC.py example/pvals/permutation_4.txt -i 5 --cor_file=example/pvals/perm_cor_4.txt
-`
+```
 
 Above I'm simply called SparCC 5 separate times. However, it is much more
 efficient and convenient to write a small script that automates this, and
@@ -105,10 +107,10 @@ ready to get the pseudo p-values.  Remember to make sure all the correlation
 files are in the same folder, are numbered sequentially, and have a '.txt'
 extension.  The following will compute both one and two sided p-values.
 
-`
+```
  python PseudoPvals.py example/basis_corr/cor_sparcc.out example/pvals/perm_cor_#.txt 5 -o example/pvals/pvals.one_sided.txt -t one_sided
  python PseudoPvals.py example/basis_corr/cor_sparcc.out example/pvals/perm_cor_#.txt 5 -o example/pvals/pvals.one_sided.txt -t two_sided
- `
+ ```
 
 
 
