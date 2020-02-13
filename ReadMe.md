@@ -7,7 +7,9 @@ original [bitbucket repo
 here](https://bitbucket.org/yonatanf/sparcc/src/default/)) to Python3, including
 a few fixes. So far I have fixed it to the point that the example data included
 with the scripts runs without raising any errors. I would be thrilled to accept
-pull requests that do more maintenance.
+pull requests that do more maintenance. Importantly, only the SparCC correlation 
+method is working at the moment. None of the other methods (Pearson, Spearman, etc.)
+are correctly implemented.
 
 Original Documentation
 ----------------------
