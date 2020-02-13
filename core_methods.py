@@ -240,7 +240,8 @@ def normalize(frame, axis=0):
     Returns new instance of same class as input frame.
     '''
     axis = _get_axis(axis)
-    return np.apply_along_axis(lambda x:1.*x/x.sum(), 1-axis, frame)
+    tmp = np.apply_along_axis(lambda x:1.*x/x.sum(), 1-axis, frame)
+    return DF(tmp)
     
 def to_fractions(frame, method='dirichlet', p_counts=1, axis=0):
     '''
@@ -288,6 +289,7 @@ def to_fractions(frame, method='dirichlet', p_counts=1, axis=0):
             f = dirichlet(a)
             return f
         fracs = np.apply_along_axis(dir_fun, 1-axis, frame)
+        fracs = DF(fracs)
     else:
         raise ValueError('Unsupported method "%s"' %method)
     return fracs

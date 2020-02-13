@@ -13,6 +13,7 @@ from numpy import (unravel_index, argmax, ones, corrcoef, cov, r_,
 from core_methods import to_fractions
 from compositional_methods import variation_mat, clr    
 from analysis_methods import correlation
+from pandas import DataFrame as DF
 try:
     from scipy.stats import nanmedian
 except ImportError:
